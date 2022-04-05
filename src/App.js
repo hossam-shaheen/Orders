@@ -10,32 +10,36 @@ function App() {
     const [error, setError] = useState(false)
 
     const mapToOrders = (items, orders, customers) => {
-        const orderFullInfo = orders.map((order) => {
-            const currentItem = items.find((item) => item.orderId === order.id)
+        const orderFullInfo = orders.reduce((previousOrder, currentOrder) => {
+            const currentItem = items.find(
+                (item) => item.orderId === currentOrder.id
+            )
             const currentCustomer = customers.find(
-                (customer) => customer.id === order.customerId
+                (customer) => customer.id === currentOrder.customerId
             )
             const currentCustomerAddress = currentCustomer.addresses.find(
                 (address) => address.type === 'shipping'
             )
 
             if (currentItem && currentCustomer) {
-                return {
-                    orderID: order.id,
-                    orderDate: order.createdAt,
-                    orderItemID: currentItem.id,
-                    orderItemName: currentItem.name,
-                    orderItemQuantity: currentItem.quantity,
-                    customerFirstName: currentCustomer.firstName,
-                    customerLastName: currentCustomer.lastName,
-                    customerAddress: currentCustomerAddress.address,
-                    customerCity: currentCustomerAddress.city,
-                    customerZIPCode: currentCustomerAddress.zip,
-                    customerEmail: currentCustomer.email,
-                }
+                return [
+                    ...previousOrder,
+                    {
+                        orderID: currentOrder.id,
+                        orderDate: currentOrder.createdAt,
+                        orderItemID: currentItem.id,
+                        orderItemName: currentItem.name,
+                        orderItemQuantity: currentItem.quantity,
+                        customerFirstName: currentCustomer.firstName,
+                        customerLastName: currentCustomer.lastName,
+                        customerAddress: currentCustomerAddress.address,
+                        customerCity: currentCustomerAddress.city,
+                        customerZIPCode: currentCustomerAddress.zip,
+                        customerEmail: currentCustomer.email,
+                    },
+                ]
             }
-            
-        })
+        }, [])
 
         setOrders(orderFullInfo)
     }
