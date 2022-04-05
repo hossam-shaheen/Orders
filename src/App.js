@@ -7,7 +7,7 @@ import Loader from './components/Loader/Loader'
 function App() {
     const [orders, setOrders] = useState([])
     const [loading, setLoading] = useState(false)
-    const [error, setError] = useState(false)
+    const [error, setError] = useState("")
 
     const mapToOrders = (items, orders, customers) => {
         const orderFullInfo = orders.reduce((previousOrder, currentOrder) => {
@@ -57,6 +57,7 @@ function App() {
             ),
         ]
         setLoading(true)
+        setError("")
         try {
             const response = await Promise.all(orderUrls)
             if (!response.every((r) => r.ok)) {
