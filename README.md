@@ -1,6 +1,6 @@
 # Orders tracking
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+App for tracking orders and customer information.
 
 ## Available Scripts
 
